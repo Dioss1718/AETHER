@@ -70,13 +70,11 @@ const App = () => {
 
 
     return (
-        // MODIFIED: Added conditional class for width transition
         <div className={`container ${weatherData ? 'container--weather-displayed' : ''}`}>
             <h1 className="title">AETHER</h1>
             <h5>"Beyond the horizon, powered by aether"</h5>
             <h6>Your one stop weather reporter</h6>
 
-            {/* City input and search button */}
             <div className="input-group">
                 <input
                     type="text"
@@ -98,14 +96,12 @@ const App = () => {
                 </button>
             </div>
 
-            {/* Loading indicator */}
             {loading && (
                 <div className="loading-message">
                     Just a moment..
                 </div>
             )}
 
-            {/* Error message display */}
             {error && (
                 <div className="error-message" role="alert">
                     <strong>Error:</strong>
@@ -113,28 +109,30 @@ const App = () => {
                 </div>
             )}
 
-            {/* Display weather data if available */}
             {weatherData && (
                 <div className="weather-display">
-                    <h2 className="city-name">
-                        {weatherData.name}, {weatherData.sys.country}
-                    </h2>
+                    {/* The city name and description are now separate from the main weather data, allowing for flexible layout */}
+                    <div className="city-description">
+                        <h2>
+                            {weatherData.name}, {weatherData.sys.country}
+                        </h2>
+                        <p className="description">
+                            {weatherData.weather[0].description}
+                        </p>
+                    </div>
+
                     <div className="temp-icon-group">
                         {weatherData.weather[0].icon && (
-
                             <i
                                 className={`${getWeatherIconClass(weatherData.weather[0].icon)} weather-icon-font`}
                                 title={weatherData.weather[0].description}
                             ></i>
-
                         )}
                         <p className="temperature">
                             {Math.round(weatherData.main.temp)}°C
                         </p>
                     </div>
-                    <p className="description">
-                        {weatherData.weather[0].description}
-                    </p>
+
                     <div className="details-grid">
                         <p>Humidity: <span>{weatherData.main.humidity}%</span></p>
                         <p>Wind Speed: <span>{weatherData.wind.speed} m/s</span></p>
